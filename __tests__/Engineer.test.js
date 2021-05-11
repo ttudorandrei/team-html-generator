@@ -13,6 +13,10 @@ describe("Engineer", () => {
     expect(mockEngineer.name).toEqual(expect.any(String));
   });
 
+  it("Is the name at least 2 characters long?", () => {
+    expect(mockEngineer.name.length).toBeGreaterThanOrEqual(2);
+  });
+
   it("Does it contain an id?", () => {
     expect(mockEngineer.id).toEqual(expect.any(Number));
   });

@@ -13,6 +13,10 @@ describe("Manager", () => {
     expect(mockManager.name).toEqual(expect.any(String));
   });
 
+  it("Is the name at least 2 characters long?", () => {
+    expect(mockManager.name.length).toBeGreaterThanOrEqual(2);
+  });
+
   it("Does it contain an id?", () => {
     expect(mockManager.id).toEqual(expect.any(Number));
   });
