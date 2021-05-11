@@ -12,7 +12,7 @@ describe("Employee", () => {
     expect(mockEmployee.name).toEqual(expect.any(String));
   });
 
-  it("Does it contain and id?", () => {
+  it("Does it contain an id?", () => {
     expect(mockEmployee.id).toEqual(expect.any(Number));
   });
 
