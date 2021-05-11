@@ -1,3 +1,4 @@
+//importing manager class
 const Manager = require("../src/lib/Manager");
 
 const mockManager = new Manager(
@@ -9,26 +10,32 @@ const mockManager = new Manager(
 );
 
 describe("Manager", () => {
+  //tests to see if name is a string
   it("Does it contain a name?", () => {
     expect(mockManager.name).toEqual(expect.any(String));
   });
 
+  //tests to see if name is at least two characters long
   it("Is the name at least 2 characters long?", () => {
     expect(mockManager.name.length).toBeGreaterThanOrEqual(2);
   });
 
+  //check to see if the id exists and is a number
   it("Does it contain an id?", () => {
     expect(mockManager.id).toEqual(expect.any(Number));
   });
 
+  //verifies that the user input text is an email by verifing that the string contains the "@" and "." symbols
   it("Does it contain an Email address?", () => {
     expect(mockManager.email).toContainEqual(expect.stringContaining("@", "."));
   });
 
+  //check if role matches class
   it("Does it contain a role?", () => {
     expect(mockManager.role).toMatch("manager");
   });
 
+  //checks if office number exists and is a number
   it("Does it contain an office number?", () => {
     expect(mockManager.officeNumber).toEqual(expect.any(Number));
   });
