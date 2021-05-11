@@ -9,6 +9,8 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
+const myEmployeesArray = [];
+
 const questions = [
   {
     type: "input",
@@ -126,12 +128,33 @@ const init = async () => {
                 response.officeNumber
               );
               console.log(TeamManager, "2");
+              myEmployeesArray.push(TeamManager);
             });
         } else {
           console.log("++++++++++ Nada ++++++++++");
         }
+
+        const addAnotherEmployee = () => {
+          inquirer
+            .prompt([
+              {
+                type: "confirm",
+                message: "Would you like to add another employee?",
+                name: "addEmployee",
+              },
+            ])
+            .then((response) => {
+              if (response.addEmployee === true) {
+                init();
+              } else {
+                console.log("Eng of app");
+              }
+            });
+        };
+
+        addAnotherEmployee();
       });
-    console.log(answers, "1");
+    console.log(myEmployeesArray);
   } catch (err) {
     console.log(err);
   }
