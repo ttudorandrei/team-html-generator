@@ -8,7 +8,7 @@ const mockEngineer = new Engineer(
   "annieongithub"
 );
 
-describe("Employee", () => {
+describe("Engineer", () => {
   it("Does it contain a name?", () => {
     expect(mockEngineer.name).toEqual(expect.any(String));
   });
