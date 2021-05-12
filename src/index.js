@@ -1,10 +1,9 @@
 //this imports the "inquirer" package to prompt the user with the questions
 const inquirer = require("inquirer");
-//this imports the "fs" package to write the file
-const fs = require("fs");
 
 //constructor functions
 const Employee = require("./lib/Employee");
+const writeToFile = require("../src/utils/writeToFile");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -12,6 +11,7 @@ const questions = require("../src/utils/questions");
 const managerSpecificQuestion = require("./utils/managerSpecificQuestion");
 const engineerSpecificQuestion = require("../src/utils/engineerSpecificQuestion");
 const internSpecificQuestion = require("../src/utils/internSpecificQuestion");
+const generateHTML = require("../src/utils/generateHTML");
 
 const addAnotherEmployee = () => {
   inquirer
@@ -88,9 +88,17 @@ const init = async () => {
 
         addAnotherEmployee();
         return answers;
+      })
+      .then((response) => {
+        if (response.addEmployee === true) {
+          init();
+        } else {
+          console.log(myEmployeesArray, "my team");
+          const html = generateHTML(myEmployeesArray);
+          writeToFile(html);
+        }
       });
     console.log(myEmployeesArray);
-    console.log(answers, "3");
   } catch (err) {
     console.log(err);
   }
