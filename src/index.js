@@ -2,8 +2,7 @@
 const inquirer = require("inquirer");
 
 //constructor functions
-const Employee = require("./lib/Employee");
-const writeToFile = require("../src/utils/writeToFile");
+// const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -11,6 +10,7 @@ const questions = require("../src/utils/questions");
 const managerSpecificQuestion = require("./utils/managerSpecificQuestion");
 const engineerSpecificQuestion = require("../src/utils/engineerSpecificQuestion");
 const internSpecificQuestion = require("../src/utils/internSpecificQuestion");
+const writeToFile = require("../src/utils/writeToFile");
 const generateHTML = require("../src/utils/generateHTML");
 
 const addAnotherEmployee = () => {

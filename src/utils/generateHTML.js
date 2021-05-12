@@ -34,7 +34,7 @@ const generateInternCard = (employee) => {
   return `<div class="col-sm-6 col-md-4 col-lg-3 mt-3">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Engineer</h5>
+      <h5 class="card-title">Intern</h5>
       <div class="card-text">Name: ${employee.employeeName}</div>
       <div class="card-text">Id: ${employee.employeeId}</div>
       <div class="card-text">Email: ${employee.employeeEmail}</div>
