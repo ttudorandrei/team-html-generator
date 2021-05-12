@@ -8,93 +8,30 @@ const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const questions = require("../src/utils/questions");
+const managerSpecificQuestion = require("./utils/managerSpecificQuestion");
+const engineerSpecificQuestion = require("../src/utils/engineerSpecificQuestion");
+const internSpecificQuestion = require("../src/utils/internSpecificQuestion");
+
+const addAnotherEmployee = () => {
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        message: "Would you like to add an employee?",
+        name: "addEmployee",
+      },
+    ])
+    .then((response) => {
+      if (response.addEmployee === true) {
+        init();
+      } else {
+        console.log("Eng of app");
+      }
+    });
+};
 
 const myEmployeesArray = [];
-
-const questions = [
-  {
-    type: "input",
-    message: "Please choose a name for your file:",
-    name: "filename",
-  },
-
-  {
-    type: "input",
-    message: "Please type in the employee name:",
-    name: "employeeName",
-    validate: (name) => {
-      if (!name || name.length < 2) {
-        return "Please type in the employee name:";
-      } else {
-        return true;
-      }
-    },
-  },
-
-  {
-    type: "input",
-    message: "Please type in the employee id:",
-    name: "employeeId",
-    validate: (id) => {
-      if (!id) {
-        return "Please type in the employee id:";
-      } else {
-        return true;
-      }
-    },
-  },
-
-  {
-    type: "input",
-    message: "Please type in the employee email address",
-    name: "employeeEmail",
-    validate: (email) => {
-      if (!email) {
-        return "Please type in the email address of the employee";
-      } else {
-        return true;
-      }
-    },
-  },
-
-  {
-    type: "list",
-    message: "Please choose the employee role you want to add.",
-    name: "employeeRole",
-    choices: ["Manager", "Engineer", "Intern"],
-  },
-];
-
-const checkSpecificRoles = function (answers) {
-  if (answers.employeeRole === "Manager") {
-    inquirer
-      .prompt([
-        {
-          type: "input",
-          message: "Please type in the office number:",
-          name: "officeNumber",
-          validate: (officeNumberInput) => {
-            if (officeNumberInput) {
-              return true;
-            } else {
-              return "Please type in the correct office number!";
-            }
-          },
-        },
-      ])
-      .then((response) => {
-        console.log(response.officeNumberInput, "4");
-        const TeamManager = new Manager(
-          answers.name,
-          answers.id,
-          answers.email,
-          answers.officeNumber
-        );
-      });
-  } else {
-    console.log("++++++++++ Nada ++++++++++");
-  }
-};
 
 //this will initialize the app
 const init = async () => {
@@ -104,20 +41,7 @@ const init = async () => {
       .then(async function (answers) {
         if (answers.employeeRole === "Manager") {
           await inquirer
-            .prompt([
-              {
-                type: "input",
-                message: "Please type in the office number:",
-                name: "officeNumber",
-                validate: (officeNumber) => {
-                  if (officeNumber) {
-                    return true;
-                  } else {
-                    return "Please type in the correct office number!";
-                  }
-                },
-              },
-            ])
+            .prompt(managerSpecificQuestion)
             .then(function (response) {
               console.log(response.officeNumber, "3");
               const TeamManager = new Manager(
@@ -130,31 +54,43 @@ const init = async () => {
               console.log(TeamManager, "2");
               myEmployeesArray.push(TeamManager);
             });
-        } else {
-          console.log("++++++++++ Nada ++++++++++");
+        } else if (answers.employeeRole === "Engineer") {
+          await inquirer
+            .prompt(engineerSpecificQuestion)
+            .then(function (response) {
+              console.log(response.officeNumber, "3");
+              const TeamEngineer = new Engineer(
+                answers.employeeName,
+                answers.employeeId,
+                answers.employeeEmail,
+                answers.employeeRole,
+                response.gitHub
+              );
+              console.log(TeamEngineer, "2");
+              myEmployeesArray.push(TeamEngineer);
+            });
+        } else if (answers.employeeRole === "Intern") {
+          await inquirer
+            .prompt(internSpecificQuestion)
+            .then(function (response) {
+              console.log(response.officeNumber, "3");
+              const TeamIntern = new Intern(
+                answers.employeeName,
+                answers.employeeId,
+                answers.employeeEmail,
+                answers.employeeRole,
+                response.schoolName
+              );
+              console.log(TeamIntern, "2");
+              myEmployeesArray.push(TeamIntern);
+            });
         }
 
-        const addAnotherEmployee = () => {
-          inquirer
-            .prompt([
-              {
-                type: "confirm",
-                message: "Would you like to add another employee?",
-                name: "addEmployee",
-              },
-            ])
-            .then((response) => {
-              if (response.addEmployee === true) {
-                init();
-              } else {
-                console.log("Eng of app");
-              }
-            });
-        };
-
         addAnotherEmployee();
+        return answers;
       });
     console.log(myEmployeesArray);
+    console.log(answers, "3");
   } catch (err) {
     console.log(err);
   }
