@@ -26,7 +26,9 @@ const addAnotherEmployee = () => {
       if (response.addEmployee === true) {
         init();
       } else {
-        console.log("Eng of app");
+        console.info(
+          "+++++++ Your Team profile was successfully generated +++++++"
+        );
       }
     });
 };
@@ -43,7 +45,6 @@ const init = async () => {
           await inquirer
             .prompt(managerSpecificQuestion)
             .then(function (response) {
-              console.log(response.officeNumber, "3");
               const TeamManager = new Manager(
                 answers.employeeName,
                 answers.employeeId,
@@ -51,14 +52,12 @@ const init = async () => {
                 answers.employeeRole,
                 response.officeNumber
               );
-              console.log(TeamManager, "2");
               myEmployeesArray.push(TeamManager);
             });
         } else if (answers.employeeRole === "Engineer") {
           await inquirer
             .prompt(engineerSpecificQuestion)
             .then(function (response) {
-              console.log(response.officeNumber, "3");
               const TeamEngineer = new Engineer(
                 answers.employeeName,
                 answers.employeeId,
@@ -66,14 +65,12 @@ const init = async () => {
                 answers.employeeRole,
                 response.gitHub
               );
-              console.log(TeamEngineer, "2");
               myEmployeesArray.push(TeamEngineer);
             });
         } else if (answers.employeeRole === "Intern") {
           await inquirer
             .prompt(internSpecificQuestion)
             .then(function (response) {
-              console.log(response.officeNumber, "3");
               const TeamIntern = new Intern(
                 answers.employeeName,
                 answers.employeeId,
@@ -81,7 +78,6 @@ const init = async () => {
                 answers.employeeRole,
                 response.schoolName
               );
-              console.log(TeamIntern, "2");
               myEmployeesArray.push(TeamIntern);
             });
         }
@@ -93,12 +89,10 @@ const init = async () => {
         if (response.addEmployee === true) {
           init();
         } else {
-          console.log(myEmployeesArray, "my team");
           const html = generateHTML(myEmployeesArray);
           writeToFile(html);
         }
       });
-    console.log(myEmployeesArray);
   } catch (err) {
     console.log(err);
   }
