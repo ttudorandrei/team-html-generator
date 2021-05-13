@@ -43,6 +43,7 @@ const managerSpecificQuestion = [
   },
 ];
 
+//exports an object containing the employee type specific questions
 module.exports = {
   engineerSpecificQuestion,
   internSpecificQuestion,

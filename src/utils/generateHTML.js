@@ -45,6 +45,7 @@ const generateInternCard = (employee) => {
 };
 
 const generateHTML = (myEmployeesArray) => {
+  //generates a card with specific fields to the type of employee (manager, engineer or intern)
   const generateCard = (employee) => {
     if (employee instanceof Manager) {
       return generateManagerCard(employee);
@@ -54,6 +55,8 @@ const generateHTML = (myEmployeesArray) => {
       return generateInternCard(employee);
     }
   };
+
+  //iterates through the array of employees and generates a card for each one of them
   const cards = myEmployeesArray.map(generateCard);
 
   return `<!DOCTYPE html>

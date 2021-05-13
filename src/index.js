@@ -15,6 +15,7 @@ const internSpecificQuestion = employeeSpecificQuestion.internSpecificQuestion;
 const writeToFile = require("../src/utils/writeToFile");
 const generateHTML = require("../src/utils/generateHTML");
 
+//this will ask the user if he wants to add another employee and based on the response it will either re-prompt the questions or exit the app;
 const addAnotherEmployee = () => {
   inquirer
     .prompt([
@@ -35,13 +36,16 @@ const addAnotherEmployee = () => {
     });
 };
 
+// empty employees array
 const myEmployeesArray = [];
 
 //this will initialize the app
 const init = async () => {
   try {
+    //prompts the questions
     await inquirer
       .prompt(questions)
+      // asks sepcific questions based on the type of the employee that the user chose
       .then(async function (answers) {
         if (answers.employeeRole === "Manager") {
           await inquirer
@@ -54,6 +58,7 @@ const init = async () => {
                 answers.employeeRole,
                 response.officeNumber
               );
+              // pushes the employee into the employee array
               myEmployeesArray.push(TeamManager);
             });
         } else if (answers.employeeRole === "Engineer") {
@@ -67,6 +72,7 @@ const init = async () => {
                 answers.employeeRole,
                 response.gitHub
               );
+              // pushes the employee into the employee array
               myEmployeesArray.push(TeamEngineer);
             });
         } else if (answers.employeeRole === "Intern") {
@@ -80,6 +86,7 @@ const init = async () => {
                 answers.employeeRole,
                 response.schoolName
               );
+              // pushes the employee into the employee array
               myEmployeesArray.push(TeamIntern);
             });
         }
@@ -91,6 +98,7 @@ const init = async () => {
         if (response.addEmployee === true) {
           init();
         } else {
+          //this will run the functions that generate the html and the write it to file
           const html = generateHTML(myEmployeesArray);
           writeToFile(html);
         }
