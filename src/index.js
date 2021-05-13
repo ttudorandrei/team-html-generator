@@ -2,14 +2,16 @@
 const inquirer = require("inquirer");
 
 //constructor functions
-// const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const questions = require("../src/utils/questions");
-const managerSpecificQuestion = require("./utils/managerSpecificQuestion");
-const engineerSpecificQuestion = require("../src/utils/engineerSpecificQuestion");
-const internSpecificQuestion = require("../src/utils/internSpecificQuestion");
+const employeeSpecificQuestion = require("./utils/employeeTypeSpecificQuestions.js");
+const engineerSpecificQuestion =
+  employeeSpecificQuestion.engineerSpecificQuestion;
+const managerSpecificQuestion =
+  employeeSpecificQuestion.managerSpecificQuestion;
+const internSpecificQuestion = employeeSpecificQuestion.internSpecificQuestion;
 const writeToFile = require("../src/utils/writeToFile");
 const generateHTML = require("../src/utils/generateHTML");
 
@@ -38,7 +40,7 @@ const myEmployeesArray = [];
 //this will initialize the app
 const init = async () => {
   try {
-    const answers = await inquirer
+    await inquirer
       .prompt(questions)
       .then(async function (answers) {
         if (answers.employeeRole === "Manager") {
