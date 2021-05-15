@@ -1,5 +1,6 @@
-//this imports the "inquirer" package to prompt the user with the questions
+//this imports the "inquirer" and "path" packages
 const inquirer = require("inquirer");
+const path = require("path");
 
 //constructor functions
 const Manager = require("./lib/Manager");
@@ -13,6 +14,10 @@ const {
 } = require("./utils/employeeTypeSpecificQuestions.js");
 const writeToFile = require("../src/utils/writeToFile");
 const generateHTML = require("../src/utils/generateHTML");
+
+//this sets the filepath for the function that writes the html
+const OUTPUT_DIR = path.resolve(__dirname, "dist");
+const outputPath = path.join(OUTPUT_DIR, "team-profile.html");
 
 //this will ask the user if he wants to add another employee and based on the response it will either re-prompt the questions or exit the app;
 const addAnotherEmployee = () => {
@@ -42,66 +47,52 @@ const myEmployeesArray = [];
 const init = async () => {
   try {
     //prompts the questions
-    await inquirer
-      .prompt(questions)
-      // asks specific questions based on the type of the employee that the user chose
-      .then(async function (answers) {
-        if (answers.employeeRole === "Manager") {
-          await inquirer
-            .prompt(managerSpecificQuestion)
-            .then(function (response) {
-              const TeamManager = new Manager(
-                answers.employeeName,
-                answers.employeeId,
-                answers.employeeEmail,
-                answers.employeeRole,
-                response.officeNumber
-              );
-              // pushes the employee into the employee array
-              myEmployeesArray.push(TeamManager);
-            });
-        } else if (answers.employeeRole === "Engineer") {
-          await inquirer
-            .prompt(engineerSpecificQuestion)
-            .then(function (response) {
-              const TeamEngineer = new Engineer(
-                answers.employeeName,
-                answers.employeeId,
-                answers.employeeEmail,
-                answers.employeeRole,
-                response.gitHub
-              );
-              // pushes the employee into the employee array
-              myEmployeesArray.push(TeamEngineer);
-            });
-        } else if (answers.employeeRole === "Intern") {
-          await inquirer
-            .prompt(internSpecificQuestion)
-            .then(function (response) {
-              const TeamIntern = new Intern(
-                answers.employeeName,
-                answers.employeeId,
-                answers.employeeEmail,
-                answers.employeeRole,
-                response.schoolName
-              );
-              // pushes the employee into the employee array
-              myEmployeesArray.push(TeamIntern);
-            });
-        }
+    const answers = await inquirer.prompt(questions);
+    // asks specific questions based on the type of the employee that the user chose
+    if (answers.employeeRole === "Manager") {
+      const response = await inquirer.prompt(managerSpecificQuestion);
+      const TeamManager = new Manager(
+        answers.employeeName,
+        answers.employeeId,
+        answers.employeeEmail,
+        answers.employeeRole,
+        response.officeNumber
+      );
+      // pushes the employee into the employee array
+      myEmployeesArray.push(TeamManager);
+    } else if (answers.employeeRole === "Engineer") {
+      const response = await inquirer.prompt(engineerSpecificQuestion);
+      const TeamEngineer = new Engineer(
+        answers.employeeName,
+        answers.employeeId,
+        answers.employeeEmail,
+        answers.employeeRole,
+        response.gitHub
+      );
+      // pushes the employee into the employee array
+      myEmployeesArray.push(TeamEngineer);
+    } else if (answers.employeeRole === "Intern") {
+      const response = await inquirer.prompt(internSpecificQuestion);
+      const TeamIntern = new Intern(
+        answers.employeeName,
+        answers.employeeId,
+        answers.employeeEmail,
+        answers.employeeRole,
+        response.schoolName
+      );
+      // pushes the employee into the employee array
+      myEmployeesArray.push(TeamIntern);
+    }
 
-        addAnotherEmployee();
-        return answers;
-      })
-      .then((response) => {
-        if (response.addEmployee === true) {
-          init();
-        } else {
-          //this will run the functions that generate the html and the write it to file
-          const html = generateHTML(myEmployeesArray);
-          writeToFile(html);
-        }
-      });
+    addAnotherEmployee();
+    // return answers;
+    if (answers.addEmployee === true) {
+      init();
+    } else {
+      //this will run the functions that generate the html and the write it to file
+      const html = generateHTML(myEmployeesArray);
+      writeToFile(html, outputPath);
+    }
   } catch (err) {
     console.log(err);
   }

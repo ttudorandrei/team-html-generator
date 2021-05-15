@@ -2,9 +2,9 @@
 const fs = require("fs");
 
 // writes the data to a html file with a name of our choosing
-const writeToFile = (html) => {
+const writeToFile = (html, path) => {
   try {
-    fs.writeFileSync("team-profile.html", html);
+    fs.writeFileSync(path, html);
   } catch (err) {
     console.log(err);
   }
