@@ -6,12 +6,11 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const questions = require("../src/utils/questions");
-const employeeSpecificQuestion = require("./utils/employeeTypeSpecificQuestions.js");
-const engineerSpecificQuestion =
-  employeeSpecificQuestion.engineerSpecificQuestion;
-const managerSpecificQuestion =
-  employeeSpecificQuestion.managerSpecificQuestion;
-const internSpecificQuestion = employeeSpecificQuestion.internSpecificQuestion;
+const {
+  engineerSpecificQuestion,
+  managerSpecificQuestion,
+  internSpecificQuestion,
+} = require("./utils/employeeTypeSpecificQuestions.js");
 const writeToFile = require("../src/utils/writeToFile");
 const generateHTML = require("../src/utils/generateHTML");
 
@@ -45,7 +44,7 @@ const init = async () => {
     //prompts the questions
     await inquirer
       .prompt(questions)
-      // asks sepcific questions based on the type of the employee that the user chose
+      // asks specific questions based on the type of the employee that the user chose
       .then(async function (answers) {
         if (answers.employeeRole === "Manager") {
           await inquirer

@@ -25,7 +25,7 @@ describe("Engineer", () => {
     expect(mockEngineer.id).toEqual(expect.any(Number));
   });
 
-  //verifies that the user input text is an email by verifing that the string contains the "@" and "." symbols
+  //verifies that the user input text is an email by verifying that the string contains the "@" and "." symbols
   it("Does it contain an Email address?", () => {
     expect(mockEngineer.email).toContainEqual(
       expect.stringContaining("@", ".")
