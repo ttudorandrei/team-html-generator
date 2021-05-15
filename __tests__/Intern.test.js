@@ -12,27 +12,29 @@ const mockIntern = new Intern(
 describe("Intern", () => {
   //tests to see if name is a string
   it("Does it contain a name?", () => {
-    expect(mockIntern.name).toEqual(expect.any(String));
+    expect(mockIntern.employeeName).toEqual(expect.any(String));
   });
 
   //tests to see if name is at least two characters long
   it("Is the name at least 2 characters long?", () => {
-    expect(mockIntern.name.length).toBeGreaterThanOrEqual(2);
+    expect(mockIntern.employeeName.length).toBeGreaterThanOrEqual(2);
   });
 
   //check to see if the id exists and is a number
   it("Does it contain an id?", () => {
-    expect(mockIntern.id).toEqual(expect.any(Number));
+    expect(mockIntern.employeeId).toEqual(expect.any(Number));
   });
 
-  //verifies that the user input text is an email by verifing that the string contains the "@" and "." symbols
+  //verifies that the user input text is an email by verifying that the string contains the "@" and "." symbols
   it("Does it contain an Email address?", () => {
-    expect(mockIntern.email).toContainEqual(expect.stringContaining("@", "."));
+    expect(mockIntern.employeeEmail).toContainEqual(
+      expect.stringContaining("@", ".")
+    );
   });
 
   //check if role matches class
   it("Does it contain a role?", () => {
-    expect(mockIntern.role).toMatch("intern");
+    expect(mockIntern.employeeRole).toMatch("intern");
   });
 
   //checks if a school name was typed in
